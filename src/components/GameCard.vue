@@ -1,6 +1,10 @@
 <template>
   <div class="gameCardContainer">
     <div class="gameIcon">
+      <div class="gameDescription">
+        {{ game.date_added }}
+        {{ game.summary }}
+      </div>
       <img :src="game.logo.thumb_320x180" />
     </div>
     <div class="gameInfo">
@@ -8,9 +12,9 @@
       <div class="gameStats">
         <div class="stats">
           <div class="arrowDown"></div>
-          <p>{{ game.stats.mods_downloads_today }}</p>
+          <p>{{ game.stats.mods_subscribers_total }}</p>
           <div class="statDescriptionContainer">
-            <div class="statDescription">Downloads Today</div>
+            <div class="statDescription">Subscribers</div>
           </div>
         </div>
         <div class="stats">
@@ -26,22 +30,12 @@
 </template>
 
 <script>
-
 export default {
   name: 'Game Card',
   props: [
       'game',
   ],
-  data() {
-    return {
-      gameData: null, //Game response data
-    }
-  },
-  mounted () {
-    //Get Game info from API
-  }
 }
-
 </script>
 
 <style scoped>
@@ -54,6 +48,9 @@ export default {
 .gameCardContainer:hover .gameInfo .gameStats .stats:first-of-type {
   display:flex;
 }
+.gameCardContainer:hover .gameDescription {
+  opacity:1;
+}
 h1 {
   font-size:14px;
   white-space: nowrap;
@@ -62,10 +59,24 @@ h1 {
 }
 .gameIcon {
   overflow:hidden;
+  position: relative;
 }
 .gameIcon img {
   width:100%;
 }
+.gameDescription {
+  background-color:rgba(23, 23, 39, 0.97);
+  position:absolute;
+  width:calc(100% - 0.75rem);
+  height:100%;
+  overflow:auto;
+  padding: 0.75rem;
+  font-size:14px;
+  line-height:20px;
+  opacity:0;
+  transition:0.4s ease all;
+}
+
 .gameInfo {
   padding:12px 16px;
   display:flex;

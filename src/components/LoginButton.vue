@@ -1,21 +1,27 @@
 <template>
-  <div class="loginButton" @click="show_login = !show_login">
+  <div class="loginButton" @click="show_login = true">
     LOGIN
   </div>
   <transition name="fade" v-on:enter="enter" >
       <div class="loginContainer" v-if="show_login">
         <div class="loginArea">
+        <div class="close" @click="show_login = false">X</div>
           <h2>Login</h2>
           <hr />
           <form>
             <label>
               <h3>Email*</h3>
-              <input type="text" />
+              <input type="text" v-model="email" />
             </label>
             <label>
               <h3>Password*</h3>
               <input type="text" />
             </label>
+            <div class="formLogin">
+              <div class="loginButton" @click="loginUser">
+                LOGIN
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -25,6 +31,7 @@
 <script>
 //Show Game Card Component
 import gameCard from './GameCard.vue'
+import axios from 'axios'
 
 export default {
   name: 'Login Button',
@@ -34,23 +41,43 @@ export default {
   data() {
     return {
       show_login: false, //Game response data
+      email: "",
     }
   },
-  mounted () {
-  }
+  methods: {
+    loginUser() {
+      const headers = {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      }
+      console.log(this.email)
+      const data = {
+        api_key: "ebd85260642da002143e48b64be9bf42",
+        email: "tombye_07@hotmail.com"
+      }
+      axios
+      .post('https://api.mod.io/v1/oauth/emailrequest', data, {
+        headers: headers
+      })
+      .then(response => {
+        console.log(response);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  
+
+      /*$.ajax({
+        url: 'https://api.mod.io/v1/authenticate/terms',
+        method: 'get',
+        data: '?api_key=ebd85260642da002143e48b64be9bf42&email='+this.email,
+        headers: headers,
+        success: function(data) {
+          console.log(JSON.stringify(data));
+        }
+      })*/
+    },
+  },
 }
-
-
-/*
-import axios from 'axios'
-const getGames = async () => {
-  axios.get('https://api.mod.io/v1/games?api_key=ebd85260642da002143e48b64be9bf42')
-    .then(response => {
-      console.log(response.data.data)
-      return response.data.data
-    })
-}*/
-
 </script>
 
 <style scoped>
@@ -66,9 +93,14 @@ const getGames = async () => {
     text-align: center;
     border-radius: 4px;
     cursor:pointer;
+    max-width:80px;
+  }
+  .formLogin {
+    margin-top:20px;
   }
 
   .loginContainer {
+    z-index: 50;
     background-color:rgba(0,0,0,0.4);
     position: fixed;
     top:0px;
@@ -85,6 +117,14 @@ const getGames = async () => {
     border-radius: 6px;
     border-top: 3px solid #44bfd5;
     padding: 20px;
+    position:relative;
+  }
+  .close {
+    color:black;
+    cursor:pointer;
+    position:absolute;
+    top:20px;
+    right:20px;
   }
   .loginArea h2 {
     color:#4a4a4a;

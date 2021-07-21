@@ -73,6 +73,7 @@ const getGames = async () => {
 }
 .gameCards {
   padding: 0.75rem;
+  box-sizing: border-box;
   width:16.6666%;
 }
 h1 {
@@ -96,9 +97,42 @@ hr {
   }
 }
 
-@media screen and (max-width: 2019px) {
+@media screen and (max-width: 1339px) {
   .gameCards {
-    width:20%;
+      width: 33.3333%;
+  }
+}
+
+@media screen and (max-width: 1023px) {
+  .gameCards {
+      width: 50%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .appContentContainer {
+    margin-left: 60px;
+  }
+  .gameCards {
+      width: 33.3333%;
+  }
+}
+
+@media screen and (max-width: 639px) {
+  .gameCards {
+      width: 50%;
+  }
+}
+
+@media screen and (max-width: 479px) {
+  .appContentContainer {
+      margin-left: 0;
+  }
+}
+
+@media screen and (max-width: 419px) {
+  .gameCards {
+      width: 100%;
   }
 }
 </style>

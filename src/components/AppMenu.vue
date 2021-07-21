@@ -20,4 +20,10 @@
   background-color:#171727;
   z-index:10;
 }
+
+@media screen and (max-width: 768px) {
+  .appMenuContainer {
+      display: none;
+  }
+}
 </style>
