@@ -2,11 +2,11 @@
   <div class="appContentContainer">
     <div class="gameHeader">
       <div class="headers">
-        <h1 v-bind:class="{ activeHeader: showGames }" @click="showGames = true">Games</h1>
-        <h1 v-bind:class="{ activeHeader: !showGames }" @click="showGames = false" v-if="accessToken != ''">My Games</h1>
+        <h1 v-bind:class="{ activeHeader: showGames }" @click="showGames = true">Games <span>(API)</span></h1>
+        <h1 v-bind:class="{ activeHeader: !showGames }" @click="showGames = false" v-if="accessToken != ''">My Games <span>(Token)</span></h1>
       </div>
       <login-button @sendAccessToken="getAccessToken" v-if="accessToken == ''" />
-      <div class="logoutButton" @click="logout"  v-if="accessToken != ''">
+      <div class="logoutButton" @click="logout" v-if="accessToken != ''">
         LOGOUT
       </div>
     </div>
@@ -58,24 +58,25 @@ export default {
     axios
       .get('https://api.mod.io/v1/games?api_key=ebd85260642da002143e48b64be9bf42')
       .then(response => {
-        console.log(response.data.data);
+        //console.log(response.data.data);
         this.gameData = response.data.data
       })
   },
   watch:{
     accessToken(newAT) {
-      console.log("found access token ", newAT);
+      //console.log("found access token ", newAT);
       this.getAccessToken(newAT) //If we have an accessToken get users games
       localStorage.accessToken = newAT;
     }
   },
   methods: {
     logout() {
+      //Remove token from local storage and update accessToken to refresh component
       localStorage.removeItem('accessToken');
       this.accessToken = "";
     },
     getAccessToken (value) {
-      console.log("access Token: ", value);
+      //console.log("access Token: ", value);
       this.accessToken = value;
 
       //Get this users games
@@ -87,7 +88,7 @@ export default {
       .get('https://api.mod.io/v1/games', {
         headers: headers
       }).then(response => {
-        console.log(response);
+        //console.log(response);
         this.myGameData = response.data.data;
       })
     }
@@ -119,6 +120,10 @@ export default {
         opacity:0.5;
         font-size:21px;
         margin:0 20px 6px 0;
+        span {
+          font-size:12px;
+          color:#CCC;
+        }
       }
       .activeHeader {
         opacity:1;

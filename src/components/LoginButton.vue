@@ -75,12 +75,14 @@ export default {
         //console.log(response);
         this.showMessage = true;
         this.loginMessage = response.data.message;
+        this.showSecurityCode = true;
       })
       .catch((error) => {
-        console.log(error);
+        //console.log(error);
+        this.showMessage = true;
+        this.loginMessage = error.message;
       })
 
-      this.showSecurityCode = true;
     },
     confirmSecurity() {
       console.log("Confirm security code");
