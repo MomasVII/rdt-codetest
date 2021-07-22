@@ -84,7 +84,7 @@ export default {
         'Accept': ' application/json'
       }
       axios
-      .get('https://api.mod.io/v1/me/games', {
+      .get('https://api.mod.io/v1/games', {
         headers: headers
       }).then(response => {
         console.log(response);
