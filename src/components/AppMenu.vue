@@ -1,6 +1,6 @@
 <template>
   <div class="appMenuContainer">
-    X
+    
   </div>
 </template>
 

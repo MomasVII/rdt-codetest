@@ -2,7 +2,7 @@
   <div class="gameCardContainer">
     <div class="gameIcon">
       <div class="gameDescription">
-        {{ game.date_added }}
+        {{ game.date_added | formatDate }}
         {{ game.summary }}
       </div>
       <img :src="game.logo.thumb_320x180" />
@@ -35,6 +35,46 @@ export default {
   props: [
       'game',
   ],
+  filters: {
+    formatDate(value) {
+      function ordinal(n) {
+          let x = n % 100;
+          let y = n % 10;
+          let suffix = ['th', 'st', 'nd', 'rd'];
+          if (x !== 11 && y === 1) {
+              return `${n}${suffix[1]}`;
+          } else if (x !== 12 && y === 2) {
+              return `${n}${suffix[2]}`;
+          } else if (x !== 13 && y === 3) {
+              return `${n}${suffix[3]}`;
+          } else {
+              return `${n}${suffix[0]}`;
+          }
+      }
+
+      if (value) {
+          /* Convert UNIX timestamp to readable date */
+          var a = new Date(value * 1000);
+          var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+          var year = a.getFullYear();
+          var month = months[a.getMonth()];
+          var date = a.getDate();
+
+          var weekday = new Array(7);
+          weekday[0] = 'Sun';
+          weekday[1] = 'Mon';
+          weekday[2] = 'Tue';
+          weekday[3] = 'Wed';
+          weekday[4] = 'Thu';
+          weekday[5] = 'Fri';
+          weekday[6] = 'Sat';
+
+          var time = weekday[a.getDay()] + ' ' + ordinal(date) + ' ' + month + ', ' + year;
+          return time;
+      }
+    }
+  }
+  
 }
 </script>
 
@@ -69,7 +109,7 @@ h1 {
   background-color:rgba(23, 23, 39, 0.97);
   position:absolute;
   width:calc(100% - 0.75rem);
-  height:100%;
+  height:85%;
   overflow:auto;
   padding: 0.75rem;
   font-size:14px;

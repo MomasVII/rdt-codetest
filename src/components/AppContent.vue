@@ -2,17 +2,26 @@
   <div class="appContentContainer">
     <div class="gameHeader">
       <div class="headers">
-        <h1>Games</h1>
-        <h1>My Games</h1>
+        <h1 @click="showGames = true">Games</h1>
+        <h1 @click="showGames = false" v-if="accessToken != ''">My Games</h1>
       </div>
       <login-button @sendAccessToken="getAccessToken" v-if="accessToken == ''" />
     </div>
     <hr />
-    <div class="cardsContainer">
-      <div v-for="game in gameData" v-bind:key=game.id class="gameCards">
-        <game-card :game="game" />
+    <transition name="fade">
+      <div class="cardsContainer" v-if="showGames">
+        <div v-for="game in gameData" v-bind:key=game.id class="gameCards">
+          <game-card :game="game" />
+        </div>
       </div>
-    </div>
+    </transition>
+    <transition name="fade">
+      <div class="cardsContainer" v-if="!showGames">
+        <div v-for="game in myGameData" v-bind:key=game.id class="gameCards">
+          <game-card :game="game" />
+        </div>
+      </div>
+    </transition>
   </div>
 </template>
 
@@ -33,7 +42,8 @@ export default {
     return {
       gameData: null, //Game response data
       myGameData: null, //Game response data
-      accessToken: ""
+      accessToken: "",
+      showGames: true //Show games or show my games
     }
   },
   mounted () {
@@ -52,6 +62,7 @@ export default {
   watch:{
     accessToken(newAT) {
       console.log("found access token ", newAT);
+      this.getAccessToken (newAT) //If we have an accessToken get users games
       localStorage.accessToken = newAT;
     }
   },
@@ -70,6 +81,7 @@ export default {
         headers: headers
       }).then(response => {
         console.log(response);
+        this.myGameData = response.data.data;
       })
     }
   }
@@ -87,6 +99,14 @@ export default {
   display:flex;
   align-items:center;
   justify-content:space-between;
+}
+.headers {
+  display:flex;
+  align-items:center;
+}
+.headers h1 {
+  margin-right:20px;
+  cursor:pointer;
 }
 .cardsContainer {
   display:flex;
@@ -116,6 +136,12 @@ hr {
 @media screen and (max-width: 2019px) {
   .gameCards {
     width:20%;
+  }
+}
+
+@media screen and (max-width: 1679px) {
+  .gameCards {
+      width: 25%;
   }
 }
 

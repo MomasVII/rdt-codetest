@@ -25,9 +25,9 @@ body {
   color: white;
 }
 .fade-enter-active, .fade-leave-active {
-  transition: opacity 1s
+  transition: 0.4s ease opacity;
 }
 .fade-enter, .fade-leave-to {
-  opacity: 0
+  opacity: 0;
 }
 </style>

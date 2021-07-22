@@ -1,6 +1,6 @@
 <template>
   <div class="appBarContainer">
-    X
+    
   </div>
 </template>
 

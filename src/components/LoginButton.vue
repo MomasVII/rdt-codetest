@@ -2,7 +2,7 @@
   <div class="loginButton" @click="showLogin = true">
     LOGIN
   </div>
-  <transition name="fade" v-on:enter="enter" >
+  <transition name="fade">
       <div class="loginContainer" v-if="showLogin">
         <div class="loginArea">
         <div class="close" @click="showLogin = false">X</div>
