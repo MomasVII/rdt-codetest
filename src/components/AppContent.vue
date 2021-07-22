@@ -2,10 +2,13 @@
   <div class="appContentContainer">
     <div class="gameHeader">
       <div class="headers">
-        <h1 @click="showGames = true">Games</h1>
-        <h1 @click="showGames = false" v-if="accessToken != ''">My Games</h1>
+        <h1 v-bind:class="{ activeHeader: showGames }" @click="showGames = true">Games</h1>
+        <h1 v-bind:class="{ activeHeader: !showGames }" @click="showGames = false" v-if="accessToken != ''">My Games</h1>
       </div>
       <login-button @sendAccessToken="getAccessToken" v-if="accessToken == ''" />
+      <div class="logoutButton" @click="logout"  v-if="accessToken != ''">
+        LOGOUT
+      </div>
     </div>
     <hr />
     <transition name="fade">
@@ -62,11 +65,15 @@ export default {
   watch:{
     accessToken(newAT) {
       console.log("found access token ", newAT);
-      this.getAccessToken (newAT) //If we have an accessToken get users games
+      this.getAccessToken(newAT) //If we have an accessToken get users games
       localStorage.accessToken = newAT;
     }
   },
   methods: {
+    logout() {
+      localStorage.removeItem('accessToken');
+      this.accessToken = "";
+    },
     getAccessToken (value) {
       console.log("access Token: ", value);
       this.accessToken = value;
@@ -107,10 +114,13 @@ export default {
 .headers h1 {
   margin-right:20px;
   cursor:pointer;
+  opacity:0.5;
+}
+.headers .activeHeader {
+  opacity:1;
 }
 .cardsContainer {
   display:flex;
-  justify-content:space-between;
   flex-wrap:wrap;
 }
 .gameCards {
@@ -125,6 +135,16 @@ h1 {
 hr {
   border: 2px solid #44bfd5;
 }
+
+.logoutButton {
+  font-size:12px;
+  color:red;
+  cursor:pointer;
+  &:hover {
+    text-decoration:underline;
+  }
+}
+
 
 
 @media screen and (max-width: 2359px) {

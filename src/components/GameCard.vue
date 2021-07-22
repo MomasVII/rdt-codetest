@@ -2,8 +2,8 @@
   <div class="gameCardContainer">
     <div class="gameIcon">
       <div class="gameDescription">
-        {{ game.date_added | formatDate }}
-        {{ game.summary }}
+        <p>{{ formatDate(game.date_added) }}</p>
+        <p>{{ game.summary }}</p>
       </div>
       <img :src="game.logo.thumb_320x180" />
     </div>
@@ -35,8 +35,9 @@ export default {
   props: [
       'game',
   ],
-  filters: {
+  methods: {
     formatDate(value) {
+      //Get suffix of date numbers
       function ordinal(n) {
           let x = n % 100;
           let y = n % 10;
