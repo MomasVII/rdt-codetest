@@ -1,8 +1,11 @@
 <template>
   <div class="appContentContainer">
     <div class="gameHeader">
-      <h1>Games</h1>
-      <login-button />
+      <div class="headers">
+        <h1>Games</h1>
+        <h1>My Games</h1>
+      </div>
+      <login-button @sendAccessToken="getAccessToken" v-if="accessToken == ''" />
     </div>
     <hr />
     <div class="cardsContainer">
@@ -29,9 +32,15 @@ export default {
   data() {
     return {
       gameData: null, //Game response data
+      myGameData: null, //Game response data
+      accessToken: ""
     }
   },
   mounted () {
+
+    //Check if we have a session
+    if(localStorage.accessToken) this.accessToken = localStorage.accessToken;
+
     //Get Game info from API
     axios
       .get('https://api.mod.io/v1/games?api_key=ebd85260642da002143e48b64be9bf42')
@@ -39,19 +48,32 @@ export default {
         console.log(response.data.data);
         this.gameData = response.data.data
       })
+  },
+  watch:{
+    accessToken(newAT) {
+      console.log("found access token ", newAT);
+      localStorage.accessToken = newAT;
+    }
+  },
+  methods: {
+    getAccessToken (value) {
+      console.log("access Token: ", value);
+      this.accessToken = value;
+
+      //Get this users games
+      const headers = {
+        'Authorization': 'Bearer '+value,
+        'Accept': ' application/json'
+      }
+      axios
+      .get('https://api.mod.io/v1/me/games', {
+        headers: headers
+      }).then(response => {
+        console.log(response);
+      })
+    }
   }
 }
-
-
-/*
-import axios from 'axios'
-const getGames = async () => {
-  axios.get('https://api.mod.io/v1/games?api_key=ebd85260642da002143e48b64be9bf42')
-    .then(response => {
-      console.log(response.data.data)
-      return response.data.data
-    })
-}*/
 
 </script>
 

@@ -42,7 +42,6 @@ export default {
 .gameCardContainer {
   background-color:#171727;
   border-radius:4px;
-  overflow:hidden;
   cursor:pointer;
 }
 .gameCardContainer:hover .gameInfo .gameStats .stats:first-of-type {
@@ -60,6 +59,8 @@ h1 {
 .gameIcon {
   overflow:hidden;
   position: relative;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
 }
 .gameIcon img {
   width:100%;
@@ -115,7 +116,6 @@ h1 {
 }
 
 .statDescription {
-  position:fixed;
   background-color:#171727;
   padding:5px;
   border-radius:3px;

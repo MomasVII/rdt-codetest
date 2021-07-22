@@ -1,26 +1,34 @@
 <template>
-  <div class="loginButton" @click="show_login = true">
+  <div class="loginButton" @click="showLogin = true">
     LOGIN
   </div>
   <transition name="fade" v-on:enter="enter" >
-      <div class="loginContainer" v-if="show_login">
+      <div class="loginContainer" v-if="showLogin">
         <div class="loginArea">
-        <div class="close" @click="show_login = false">X</div>
+        <div class="close" @click="showLogin = false">X</div>
           <h2>Login</h2>
           <hr />
           <form>
-            <label>
+            <label v-show="!showSecurityCode">
               <h3>Email*</h3>
               <input type="text" v-model="email" />
             </label>
-            <label>
-              <h3>Password*</h3>
-              <input type="text" />
+            <label v-show="showSecurityCode">
+              <h3>Enter Security Code*</h3>
+              <input type="text" v-model="mySecurityCode" />
             </label>
-            <div class="formLogin">
+            <div class="formLogin" v-show="!showSecurityCode">
               <div class="loginButton" @click="loginUser">
                 LOGIN
               </div>
+            </div>
+            <div class="formLogin" v-show="showSecurityCode">
+              <div class="loginButton" @click="confirmSecurity">
+                CONFIRM
+              </div>
+            </div>
+            <div class="loginMessage" v-show="showMessage">
+              {{ loginMessage }}
             </div>
           </form>
         </div>
@@ -40,42 +48,66 @@ export default {
     },
   data() {
     return {
-      show_login: false, //Game response data
-      email: "",
+      showLogin: false, //Game response data
+      loginMessage: "",
+      showMessage: false,
+      email: "tombye_07@hotmail.com",
+      showSecurityCode: false, //Show or hide the security code form
+      mySecurityCode: "", //Security code entered by user
+      accessToken: "" //User access token
     }
   },
   methods: {
     loginUser() {
+      
+      this.showMessage = false; //Hide errors
+
       const headers = {
-        'Content-Type': 'application/x-www-form-urlencoded',
+        'Content-Type': 'application/x-www-form-urlencoded'
       }
-      console.log(this.email)
-      const data = {
-        api_key: "ebd85260642da002143e48b64be9bf42",
-        email: "tombye_07@hotmail.com"
-      }
+      const data = "api_key=ebd85260642da002143e48b64be9bf42&email="+this.email;
+      
       axios
       .post('https://api.mod.io/v1/oauth/emailrequest', data, {
         headers: headers
       })
       .then(response => {
-        console.log(response);
+        //console.log(response);
+        this.showMessage = true;
+        this.loginMessage = response.data.message;
       })
       .catch((error) => {
         console.log(error);
       })
-  
 
-      /*$.ajax({
-        url: 'https://api.mod.io/v1/authenticate/terms',
-        method: 'get',
-        data: '?api_key=ebd85260642da002143e48b64be9bf42&email='+this.email,
-        headers: headers,
-        success: function(data) {
-          console.log(JSON.stringify(data));
-        }
-      })*/
+      this.showSecurityCode = true;
     },
+    confirmSecurity() {
+      console.log("Confirm security code");
+
+      //Request access token from security code
+      const headers = {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      }
+      const data = "api_key=ebd85260642da002143e48b64be9bf42&security_code="+this.mySecurityCode;
+      axios
+      .post('https://api.mod.io/v1/oauth/emailexchange', data, {
+        headers: headers
+      })
+      .then(response => {
+        console.log(response);
+        if(response.data.code == 200) {
+          //this.accessToken = response.data.access_token;
+          //pass access token to appcontent
+          console.log("Emit access token to parent");
+          this.$emit('sendAccessToken', response.data.access_token)
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      }) 
+      this.showLogin = false;
+    }
   },
 }
 </script>
@@ -142,6 +174,12 @@ export default {
     border:1px solid #dbdbdb;
     height:35px;
     padding-left:10px;
+  }
+
+  .loginMessage {
+    color:red;
+    margin-top:15px;
+    font-size:12px;
   }
 
 </style>
