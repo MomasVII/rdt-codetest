@@ -9,7 +9,7 @@
 </script>
 
 
-<style scoped>
+<style lang="scss" scoped>
 .appMenuContainer {
   width: 240px;
   top: 0;
@@ -19,11 +19,8 @@
   position: fixed;
   background-color:#171727;
   z-index:10;
-}
-
-@media screen and (max-width: 768px) {
-  .appMenuContainer {
-      display: none;
+  @media screen and (max-width: 768px) {
+    display: none;
   }
 }
 </style>

@@ -5,7 +5,7 @@
   <transition name="fade">
       <div class="loginContainer" v-if="showLogin">
         <div class="loginArea">
-        <div class="close" @click="showLogin = false">X</div>
+          <div class="close" @click="showLogin = false">X</div>
           <h2>Login</h2>
           <hr />
           <form>
@@ -51,7 +51,7 @@ export default {
       showLogin: false, //Game response data
       loginMessage: "",
       showMessage: false,
-      email: "tombye_07@hotmail.com",
+      email: "",
       showSecurityCode: false, //Show or hide the security code form
       mySecurityCode: "", //Security code entered by user
       accessToken: "" //User access token
@@ -112,7 +112,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
   .loginButton {
     background-color: #44bfd5;
     border-color: transparent;
@@ -127,10 +127,6 @@ export default {
     cursor:pointer;
     max-width:80px;
   }
-  .formLogin {
-    margin-top:20px;
-  }
-
   .loginContainer {
     z-index: 50;
     background-color:rgba(0,0,0,0.4);
@@ -142,44 +138,52 @@ export default {
     display:flex;
     align-items:center;
     justify-content:center;
+    .formLogin {
+      margin-top:20px;
+    }
+    .loginArea {
+      background-color:white;
+      width:50%;
+      border-radius: 6px;
+      border-top: 3px solid #44bfd5;
+      padding: 20px;
+      position:relative;
+      h2 {
+        color:#4a4a4a;
+      }
+      label {
+        h3 {
+          color:#4a4a4a;
+          margin-bottom:10px;
+          font-size:14px;
+        }
+        input {
+          width:100%;
+          background-color: white;
+          border-radius: 4px;
+          color: #363636;
+          border:1px solid #dbdbdb;
+          height:35px;
+          padding-left:10px;
+        }
+      }
+      .close {
+        color:black;
+        cursor:pointer;
+        position:absolute;
+        top:20px;
+        right:20px;
+      }
+      .loginMessage {
+        color:red;
+        margin-top:15px;
+        font-size:12px;
+      }
+    }
   }
-  .loginArea {
-    background-color:white;
-    width:50%;
-    border-radius: 6px;
-    border-top: 3px solid #44bfd5;
-    padding: 20px;
-    position:relative;
-  }
-  .close {
-    color:black;
-    cursor:pointer;
-    position:absolute;
-    top:20px;
-    right:20px;
-  }
-  .loginArea h2 {
-    color:#4a4a4a;
-  }
-  label h3 {
-    color:#4a4a4a;
-    margin-bottom:10px;
-    font-size:14px;
-  }
-  input {
-    width:100%;
-    background-color: white;
-    border-radius: 4px;
-    color: #363636;
-    border:1px solid #dbdbdb;
-    height:35px;
-    padding-left:10px;
-  }
+  
+  
 
-  .loginMessage {
-    color:red;
-    margin-top:15px;
-    font-size:12px;
-  }
+  
 
 </style>

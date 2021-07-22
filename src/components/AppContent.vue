@@ -96,111 +96,78 @@ export default {
 
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .appContentContainer {
   margin-left:300px;
   overflow: hidden;
   padding:24px;
-}
-.gameHeader {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-}
-.headers {
-  display:flex;
-  align-items:center;
-}
-.headers h1 {
-  margin-right:20px;
-  cursor:pointer;
-  opacity:0.5;
-}
-.headers .activeHeader {
-  opacity:1;
-}
-.cardsContainer {
-  display:flex;
-  flex-wrap:wrap;
-}
-.gameCards {
-  padding: 0.75rem;
-  box-sizing: border-box;
-  width:16.6666%;
-}
-h1 {
-  font-size:21px;
-  margin:0 0 6px 0;
-}
-hr {
-  border: 2px solid #44bfd5;
-}
-
-.logoutButton {
-  font-size:12px;
-  color:red;
-  cursor:pointer;
-  &:hover {
-    text-decoration:underline;
-  }
-}
-
-
-
-@media screen and (max-width: 2359px) {
-  .gameCards {
-    width:16.6666%;
-  }
-}
-
-@media screen and (max-width: 2019px) {
-  .gameCards {
-    width:20%;
-  }
-}
-
-@media screen and (max-width: 1679px) {
-  .gameCards {
-      width: 25%;
-  }
-}
-
-@media screen and (max-width: 1339px) {
-  .gameCards {
-      width: 33.3333%;
-  }
-}
-
-@media screen and (max-width: 1023px) {
-  .gameCards {
-      width: 50%;
-  }
-}
-
-@media screen and (max-width: 768px) {
-  .appContentContainer {
+  @media screen and (max-width: 768px) {
     margin-left: 60px;
   }
-  .gameCards {
-      width: 33.3333%;
+  @media screen and (max-width: 479px) {
+    margin-left: 0;
   }
-}
-
-@media screen and (max-width: 639px) {
-  .gameCards {
-      width: 50%;
+  .gameHeader {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    .headers {
+      display:flex;
+      align-items:center;
+      h1 {
+        cursor:pointer;
+        opacity:0.5;
+        font-size:21px;
+        margin:0 20px 6px 0;
+      }
+      .activeHeader {
+        opacity:1;
+      }
+    }
+    .logoutButton {
+      font-size:12px;
+      color:red;
+      cursor:pointer;
+      &:hover {
+        text-decoration:underline;
+      }
+    }
   }
-}
-
-@media screen and (max-width: 479px) {
-  .appContentContainer {
-      margin-left: 0;
+  hr {
+    border: 2px solid #44bfd5;
   }
-}
-
-@media screen and (max-width: 419px) {
-  .gameCards {
-      width: 100%;
+  .cardsContainer {
+    display:flex;
+    flex-wrap:wrap;
+    .gameCards {
+      padding: 0.75rem;
+      box-sizing: border-box;
+      width:16.6666%;
+      @media screen and (max-width: 2359px) {
+        width:16.6666%;
+      }
+      @media screen and (max-width: 2019px) {
+        width:20%;
+      }
+      @media screen and (max-width: 1679px) {
+        width: 25%;
+      }
+      @media screen and (max-width: 1339px) {
+        width: 33.3333%;
+      }
+      @media screen and (max-width: 1023px) {
+        width: 50%;
+      }
+      @media screen and (max-width: 768px) {
+        width: 33.3333%;
+      }
+      @media screen and (max-width: 639px) {
+        width: 50%;
+      }
+      @media screen and (max-width: 419px) {
+        width: 100%;
+      }
+    }
   }
 }
 </style>
