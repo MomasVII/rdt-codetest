@@ -56,7 +56,7 @@ export default {
 
     //Get Game info from API
     axios
-      .get('https://api.mod.io/v1/games?api_key=ebd85260642da002143e48b64be9bf42')
+      .get('https://api.mod.io/v1/games?_sort=name&api_key=ebd85260642da002143e48b64be9bf42')
       .then(response => {
         //console.log(response.data.data);
         this.gameData = response.data.data
@@ -65,8 +65,10 @@ export default {
   watch:{
     accessToken(newAT) {
       //console.log("found access token ", newAT);
-      this.getAccessToken(newAT) //If we have an accessToken get users games
-      localStorage.accessToken = newAT;
+      if(newAT != "") {
+        this.getAccessToken(newAT) //If we have an accessToken get users games
+        localStorage.accessToken = newAT;
+      }
     }
   },
   methods: {
@@ -76,21 +78,23 @@ export default {
       this.accessToken = "";
     },
     getAccessToken (value) {
-      //console.log("access Token: ", value);
-      this.accessToken = value;
+      if(value != "") {
+        //console.log("access Token: ", value);
+        this.accessToken = value;
 
-      //Get this users games
-      const headers = {
-        'Authorization': 'Bearer '+value,
-        'Accept': ' application/json'
+        //Get this users games
+        const headers = {
+          'Authorization': 'Bearer '+value,
+          'Accept': ' application/json'
+        }
+        axios
+        .get('https://api.mod.io/v1/games', {
+          headers: headers
+        }).then(response => {
+          //console.log(response);
+          this.myGameData = response.data.data;
+        })
       }
-      axios
-      .get('https://api.mod.io/v1/games', {
-        headers: headers
-      }).then(response => {
-        //console.log(response);
-        this.myGameData = response.data.data;
-      })
     }
   }
 }

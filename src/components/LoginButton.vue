@@ -62,26 +62,32 @@ export default {
       
       this.showMessage = false; //Hide errors
 
-      const headers = {
-        'Content-Type': 'application/x-www-form-urlencoded'
+      //Validate email
+      if(this.email != "" && /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(this.email)) {
+        const headers = {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
+        const data = "api_key=ebd85260642da002143e48b64be9bf42&email="+this.email;
+        
+        axios
+        .post('https://api.mod.io/v1/oauth/emailrequest', data, {
+          headers: headers
+        })
+        .then(response => {
+          //console.log(response);
+          this.showMessage = true;
+          this.loginMessage = response.data.message;
+          this.showSecurityCode = true;
+        })
+        .catch((error) => {
+          //console.log(error);
+          this.showMessage = true;
+          this.loginMessage = error.message;
+        })
+      } else {
+        this.showMessage = true;
+        this.loginMessage = "Error reading email. Please check the fied and try again.";
       }
-      const data = "api_key=ebd85260642da002143e48b64be9bf42&email="+this.email;
-      
-      axios
-      .post('https://api.mod.io/v1/oauth/emailrequest', data, {
-        headers: headers
-      })
-      .then(response => {
-        //console.log(response);
-        this.showMessage = true;
-        this.loginMessage = response.data.message;
-        this.showSecurityCode = true;
-      })
-      .catch((error) => {
-        //console.log(error);
-        this.showMessage = true;
-        this.loginMessage = error.message;
-      })
 
     },
     confirmSecurity() {
